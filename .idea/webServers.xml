@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0f52d55c-3ff4-4746-ad5f-7ed4450fe8b1" name="elecroot2" url="http://10.15.194.44">
+        <fileTransfer host="10.15.194.44" port="22" rootFolder="/home/user1/mixupfamily" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="5067a8e9-2a79-40b1-9fa4-4636f5b7117b" name="nesa" url="http://10.214.143.58">
+        <fileTransfer host="10.214.143.58" port="22" rootFolder="/home/nesa320/feng/mixupfamily" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
