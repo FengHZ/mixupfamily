@@ -43,7 +43,7 @@ parser.add_argument('--print-freq', '-p', default=10, type=int,
                     metavar='N', help='print frequency (default: 10)')
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
-parser.add_argument('--not-resume-arg', action='store_true', help='if we not resume the argument')
+parser.add_argument('--resume-arg', action='store_false', help='if we not resume the argument')
 # Mixup Strategy Parameters
 parser.add_argument('--mixup', default=False, type=bool, help="use mixup method")
 parser.add_argument('--manifold-mixup', default=False, type=bool, help="use manifold mixup method")
@@ -153,7 +153,7 @@ def main(args=args):
         if os.path.isfile(args.resume):
             print("=> loading checkpoint '{}'".format(args.resume))
             checkpoint = torch.load(args.resume)
-            if not args.not_resume_arg:
+            if  args.resume_arg:
                 args = checkpoint['args']
                 args.start_epoch = checkpoint['epoch']
             model.load_state_dict(checkpoint['state_dict'])
