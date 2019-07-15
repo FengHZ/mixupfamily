@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fd9f630d-ba32-447f-bb30-b3686e994999" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/dataloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/dataloader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_sl.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_sl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/densenet.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/densenet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/preactresnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/preactresnet.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -328,16 +323,15 @@
       <workItem from="1563140997109" duration="3788000" />
       <workItem from="1563144820822" duration="164000" />
       <workItem from="1563144988604" duration="289000" />
-      <workItem from="1563165408719" duration="6923000" />
+      <workItem from="1563165408719" duration="8326000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="198835000" />
+    <option name="totallyTimeSpent" value="200238000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1293" height="733" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17704123" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -361,7 +355,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32983023" />
       <window_info anchor="right" id="Database" order="4" weight="0.32983023" />
-      <window_info anchor="right" id="Remote Host" order="5" visible="true" weight="0.32902184" />
+      <window_info anchor="right" id="Remote Host" order="5" weight="0.32902184" />
       <window_info anchor="right" id="Coverage" order="6" side_tool="true" />
     </layout>
     <layout-to-restore>
