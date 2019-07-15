@@ -5,7 +5,7 @@ In this project, we mainly implement the mixup[1] and manifold mixup[2] algorith
 
 The implementation almost achieves claimed results in the paper, and the main result are listed following. Details about parameters and some tricks need to pay attention to will be discussed in remaining sections.
 
-![readme-table1](D:\Documents\projects\mixupfamily\readme-table1.png)
+![readme-table1](./readme-table1.png)
 
 ## Requirements and Implementation Details
 
