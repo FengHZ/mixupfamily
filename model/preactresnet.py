@@ -56,7 +56,7 @@ class _PreActUnit(nn.Module):
         if stride != 1 or num_input_features != self._expansion * num_output_features:
             self.i_block = nn.Sequential()
             self.i_block.add_module('norm', nn.BatchNorm2d(num_input_features))
-            self.i_block.add_module('relu', nn.ReLU(inplace=True))
+            # self.i_block.add_module('relu', nn.ReLU(inplace=True))
             self.i_block.add_module('conv',
                                     nn.Conv2d(num_input_features, self._expansion * num_output_features, kernel_size=1,
                                               stride=stride,

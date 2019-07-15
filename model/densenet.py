@@ -22,11 +22,11 @@ class _PreProcess(nn.Sequential):
         if small_input:
             self.add_module('conv0',
                             nn.Conv2d(num_input_channels, num_init_features, kernel_size=3, stride=1, padding=1,
-                                      bias=False))
+                                      bias=True))
         else:
             self.add_module('conv0',
                             nn.Conv2d(num_input_channels, num_init_features, kernel_size=7, stride=2, padding=3,
-                                      bias=False))
+                                      bias=True))
             self.add_module('pool0', nn.MaxPool2d(kernel_size=3, stride=2, padding=1,
                                                   ceil_mode=False))
 

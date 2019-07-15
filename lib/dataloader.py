@@ -1,4 +1,3 @@
-import cv2
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler

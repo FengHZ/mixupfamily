@@ -38,7 +38,7 @@ parser.add_argument('--epochs', default=200, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
-parser.add_argument('--dp', '--data-parallel', action='store_true', help='Use Data Parallel')
+parser.add_argument('--dp', '--data-parallel', action='store_false', help='Use Data Parallel')
 parser.add_argument('--print-freq', '-p', default=10, type=int,
                     metavar='N', help='print frequency (default: 10)')
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
@@ -54,7 +54,7 @@ parser.add_argument('--ma', "--mixup-alpha", default=0.2, type=float, help="the 
 parser.add_argument('--net-name', default="wideresnet", type=str, help="the name for network to use")
 parser.add_argument('--depth', default=28, type=int, metavar='D', help="the depth of neural network")
 parser.add_argument('--width', default=2, type=int, metavar='W', help="the width of neural network")
-parser.add_argument('--dr', '--drop-rate', default=0.3, type=float, help='dropout rate')
+parser.add_argument('--dr', '--drop-rate', default=0, type=float, help='dropout rate')
 # Optimizer Parameters
 parser.add_argument('--optimizer', default="SGD", type=str, metavar="Optimizer Name")
 parser.add_argument('--lr', '--learning-rate', default=0.1, type=float,
