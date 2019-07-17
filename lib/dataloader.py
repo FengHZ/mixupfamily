@@ -50,7 +50,10 @@ def svhn_dataset(dataset_base_path, train_flag=True):
             transforms.RandomCrop(32),
             transform
         ])
-    dataset = datasets.SVHN(root=dataset_base_path, split='train', transform=transform)
+    if train_flag:
+        dataset = datasets.SVHN(root=dataset_base_path, split='train', transform=transform,download=True)
+    else:
+        dataset = datasets.SVHN(root=dataset_base_path, split='test', transform=transform,download=True)
     return dataset
 
 

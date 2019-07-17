@@ -79,8 +79,10 @@ parser.add_argument('--wd', '--weight-decay', default=5e-4, type=float)
 parser.add_argument('--wul', '--warm-up-lr', default=0.02, type=float, help='the learning rate for warm up method')
 # GPU Parameters
 parser.add_argument("--gpu", default="0,1", type=str, metavar='GPU plans to use', help='The GPU id plans to use')
+# Temp Parameters
+parser.add_argument("--flag-reg", action='store_true',
+                    help="tmp parameters control regularization loss in unsupervised loss")
 args = parser.parse_args()
-
 os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
 import torch
@@ -180,7 +182,7 @@ def main(args=args):
         if os.path.isfile(args.resume):
             print("=> loading checkpoint '{}'".format(args.resume))
             checkpoint = torch.load(args.resume)
-            if  args.resume_arg:
+            if args.resume_arg:
                 args = checkpoint['args']
                 args.start_epoch = checkpoint['epoch']
             model.load_state_dict(checkpoint['state_dict'])
@@ -251,9 +253,16 @@ def train(train_dloader_l, train_dloader_u, model, criterion_l, criterion_u, opt
             loss_supervised = mixup_criterion(criterion_l, cls_result_l, label_a, label_b, lam)
             # here label_u_approx is not with any grad
             with torch.no_grad():
-                label_u_approx = torch.softmax(model(image_u), dim=1)
+                if args.flag_reg:
+                    label_u_approx = model(image_u)
+                else:
+                    label_u_approx = torch.softmax(model(image_u), dim=1)
             mixed_image_u, label_a_approx, label_b_approx, lam = mixup_data(image_u, label_u_approx, args.mau)
             cls_result_u = torch.softmax(model(mixed_image_u), dim=1)
+            if args.flag_reg:
+                cls_result_u = cls_result_u
+            else:
+                cls_result_u = torch.softmax(cls_result_u, dim=1)
             label_u_approx_mixup = lam * label_a_approx + (1 - lam) * label_b_approx
             loss_unsupervised = criterion_u(cls_result_u, label_u_approx_mixup)
             loss = loss_supervised + alpha * loss_unsupervised
@@ -264,12 +273,18 @@ def train(train_dloader_l, train_dloader_u, model, criterion_l, criterion_u, opt
             loss_supervised = mixup_criterion(criterion_l, cls_result_l, label_a, label_b, lam)
             # here label_u_approx is not with any grad
             with torch.no_grad():
-                label_u_approx = torch.softmax(model(image_u), dim=1)
+                if args.flag_reg:
+                    label_u_approx=model(image_u)
+                else:
+                    label_u_approx = torch.softmax(model(image_u), dim=1)
             cls_result_u, label_a_approx, label_b_approx, lam = model(image_u, mixup_alpha=args.mas,
                                                                       label=label_u_approx,
                                                                       manifold_mixup=True,
                                                                       mixup_layer_list=args.mll)
-            cls_result_u = torch.softmax(cls_result_u, dim=1)
+            if args.flag_reg:
+                cls_result_u = cls_result_u
+            else:
+                cls_result_u = torch.softmax(cls_result_u, dim=1)
             label_u_approx_mixup = lam * label_a_approx + (1 - lam) * label_b_approx
             loss_unsupervised = criterion_u(cls_result_u, label_u_approx_mixup)
             loss = loss_supervised + alpha * loss_unsupervised
