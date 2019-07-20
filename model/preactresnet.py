@@ -87,10 +87,9 @@ class _PreActBlock(nn.Module):
 
 
 class PreActResNet(nn.Module):
-    def __init__(self, expansion, block_config, num_input_channels=3, num_init_features=64, img_size=(32, 32),
+    def __init__(self, expansion, block_config, num_input_channels=3, num_init_features=64,
                  num_classes=10, data_parallel=True, small_input=True, drop_rate=0.0):
         super(PreActResNet, self).__init__()
-        self._img_size = list(img_size)
         self._input_channels = num_init_features
         self._output_channels = num_init_features
         self.encoder = nn.Sequential()
@@ -109,16 +108,11 @@ class PreActResNet(nn.Module):
             if data_parallel:
                 block = nn.DataParallel(block)
             self.encoder.add_module("block%d" % (idx + 1), block)
-        if small_input:
-            factor = 2 ** (len(block_config) - 1)
-            self._img_size = [int(s / factor) for s in self._img_size]
-        else:
-            factor = 4 * (2 ** (len(block_config) - 1))
-            self._img_size = [int(s / factor) for s in self._img_size]
-        global_avg = nn.AvgPool2d(kernel_size=tuple(self._img_size), stride=1, padding=0)
+        global_avg = nn.AdaptiveAvgPool2d((1, 1))
         # we may use norm and relu before the global avg. Standard implementation doesn't use
-        # self.global_avg.add_module("norm", int(num_init_features * (2 ** (len(block_config) - 1)) * expansion))
-        # self.global_avg.add_module('relu', nn.LeakyReLU())
+        self.global_avg.add_module("norm",
+                                   nn.BatchNorm2d(int(num_init_features * (2 ** (len(block_config) - 1)) * expansion)))
+        self.global_avg.add_module('relu', nn.LeakyReLU())
         self.global_avg.add_module('avg', global_avg)
         if data_parallel:
             self.global_avg = nn.DataParallel(self.global_avg)
@@ -145,7 +139,7 @@ class PreActResNet(nn.Module):
             elif 'norm' in name and 'bias' in name:
                 param.data.fill_(0)
 
-    def forward(self, input_img, mixup_alpha=None, label=None, manifold_mixup=False,mixup_layer_list=None):
+    def forward(self, input_img, mixup_alpha=None, label=None, manifold_mixup=False, mixup_layer_list=None):
         batch_size = input_img.size(0)
         if manifold_mixup:
             # here we follow the source code and only mixup the first three layers
@@ -194,7 +188,7 @@ preactresnet_dict = {
 }
 
 
-def get_preact_resnet(name, img_size, drop_rate, data_parallel, num_classes):
+def get_preact_resnet(name, drop_rate, data_parallel, num_classes):
     return PreActResNet(expansion=preactresnet_dict[name]["expansion"],
-                        block_config=preactresnet_dict[name]["block_config"], img_size=img_size, drop_rate=drop_rate,
+                        block_config=preactresnet_dict[name]["block_config"], drop_rate=drop_rate,
                         data_parallel=data_parallel, num_classes=num_classes)

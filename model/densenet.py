@@ -103,19 +103,18 @@ class DenseNet2d(nn.Module):
         efficient (bool) - set to True to use checkpointing. Much more memory efficient, but slower.
     """
 
-    def __init__(self, num_input_channels=3, growth_rate=32, block_config=(6, 12, 24, 16), img_size=(32, 32),
-                 compression=0.5, num_init_features=16, bn_size=4, drop_rate=float(0), efficient=False, num_classes=10,
+    def __init__(self, num_input_channels=3, growth_rate=32, block_config=(6, 12, 24, 16), compression=0.5,
+                 num_init_features=16, bn_size=4, drop_rate=float(0), efficient=False, num_classes=10,
                  data_parallel=True, small_input=True):
         super(DenseNet2d, self).__init__()
         assert 0 < compression <= 1, 'compression of densenet should be between 0 and 1'
-        self._img_size = list(img_size)
         # First convolution
         self.encoder = nn.Sequential()
         self._block_config = block_config
         pre_process = _PreProcess(num_input_channels, num_init_features, small_input=small_input)
         if data_parallel:
             pre_process = nn.DataParallel(pre_process)
-            self.encoder.add_module("pre_process", pre_process)
+        self.encoder.add_module("pre_process", pre_process)
         # add dense block
         num_features = num_init_features
         for i, num_layers in enumerate(block_config):
@@ -139,17 +138,13 @@ class DenseNet2d(nn.Module):
                 self.encoder.add_module('transition%d' % (i + 1), trans)
                 num_features = int(num_features * compression)
             else:
-                # we may use norm before the global avg. Standard implementation doesn't use
-                # trans = nn.BatchNorm2d(num_features)
                 trans = nn.Sequential()
+                trans.add_module("norm", nn.BatchNorm2d(num_features))
+                trans.add_module("relu", nn.BatchNorm2d(num_features))
                 if data_parallel:
                     trans = nn.DataParallel(trans)
                 self.encoder.add_module('transition%d' % (i + 1), trans)
-        if small_input:
-            self._img_size = [int(s / 2 ** (len(block_config) - 1)) for s in self._img_size]
-        else:
-            self._img_size = [int(s / 2 ** (len(block_config) + 1)) for s in self._img_size]
-        global_avg = nn.AvgPool2d(kernel_size=tuple(self._img_size), stride=1, padding=0)
+        global_avg = nn.AdaptiveAvgPool2d(output_size=(1, 1))
         if data_parallel:
             global_avg = nn.DataParallel(global_avg)
         self.global_avg = global_avg
@@ -226,7 +221,7 @@ densenet_dict = {
 }
 
 
-def get_densenet(name, img_size, drop_rate, data_parallel, num_classes):
+def get_densenet(name, drop_rate, data_parallel, num_classes):
     return DenseNet2d(growth_rate=densenet_dict[name]["growth_rate"], block_config=densenet_dict[name]["block_config"],
-                      num_init_features=densenet_dict[name]["num_init_features"], img_size=img_size,
+                      num_init_features=densenet_dict[name]["num_init_features"],
                       drop_rate=drop_rate, data_parallel=data_parallel, num_classes=num_classes)

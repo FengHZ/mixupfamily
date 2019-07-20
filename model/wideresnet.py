@@ -65,13 +65,12 @@ class _WideBlock(nn.Module):
 
 
 class WideResNet(nn.Module):
-    def __init__(self, num_input_channels=3, num_init_features=16, img_size=(32, 32), depth=28, width=2, num_classes=10,
+    def __init__(self, num_input_channels=3, num_init_features=16, depth=28, width=2, num_classes=10,
                  data_parallel=True, small_input=True, drop_rate=0.0):
         super(WideResNet, self).__init__()
         assert (depth - 4) % 6 == 0, 'depth should be 6n+4'
         block_depth = (depth - 4) // 6
         widths = [int(v * width) for v in (16, 32, 64)]
-        self._img_size = list(img_size)
         self._widths = widths
         self.encoder = nn.Sequential()
         self.global_avg = nn.Sequential()
@@ -87,14 +86,10 @@ class WideResNet(nn.Module):
             if data_parallel:
                 wide_block = nn.DataParallel(wide_block)
             self.encoder.add_module("wideblock%d" % (idx + 1), wide_block)
-        if small_input:
-            self._img_size = [int(s / 4) for s in self._img_size]
-        else:
-            self._img_size = [int(s / 16) for s in self._img_size]
-        global_avg = nn.AvgPool2d(kernel_size=tuple(self._img_size), stride=1, padding=0)
+        global_avg = nn.AdaptiveAvgPool2d((1, 1))
         # we may use norm and relu before the global avg. Standard implementation doesn't use
-        # self.global_avg.add_module("norm", nn.BatchNorm2d(widths[-1]))
-        # self.global_avg.add_module('relu', nn.LeakyReLU())
+        self.global_avg.add_module("norm", nn.BatchNorm2d(nn.BatchNorm2d(widths[-1])))
+        self.global_avg.add_module('relu', nn.LeakyReLU())
         self.global_avg.add_module('avg', global_avg)
         if data_parallel:
             self.global_avg = nn.DataParallel(self.global_avg)

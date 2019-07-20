@@ -126,14 +126,14 @@ def main(args=args):
     else:
         raise NotImplementedError("Dataset {} Not Implemented".format(args.dataset))
     if args.net_name == "wideresnet":
-        model = wideresnet.WideResNet(depth=args.depth, width=args.width, img_size=tuple(args.image_size),
+        model = wideresnet.WideResNet(depth=args.depth, width=args.width,
                                       num_classes=num_classes, data_parallel=args.dp, drop_rate=args.dr)
     elif "preact" in args.net_name:
-        model = get_preact_resnet(args.net_name, img_size=tuple(args.image_size), num_classes=num_classes,
+        model = get_preact_resnet(args.net_name,  num_classes=num_classes,
                                   data_parallel=args.dp,
                                   drop_rate=args.dr)
     elif "densenet" in args.net_name:
-        model = get_densenet(args.net_name, img_size=tuple(args.image_size), num_classes=num_classes,
+        model = get_densenet(args.net_name, num_classes=num_classes,
                              data_parallel=args.dp, drop_rate=args.dr)
     else:
         raise NotImplementedError("model {} not implemented".format(args.net_name))

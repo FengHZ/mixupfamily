@@ -154,14 +154,14 @@ def main(args=args):
     else:
         raise NotImplementedError("Dataset {} Not Implemented".format(args.dataset))
     if args.net_name == "wideresnet":
-        model = wideresnet.WideResNet(depth=args.depth, width=args.width, img_size=tuple(args.image_size),
+        model = wideresnet.WideResNet(depth=args.depth, width=args.width,
                                       num_classes=num_classes, data_parallel=args.dp, drop_rate=args.dr)
     elif "preact" in args.net_name:
-        model = get_preact_resnet(args.net_name, img_size=tuple(args.image_size), num_classes=num_classes,
+        model = get_preact_resnet(args.net_name, num_classes=num_classes,
                                   data_parallel=args.dp,
                                   drop_rate=args.dr)
     elif "densenet" in args.net_name:
-        model = get_densenet(args.net_name, img_size=tuple(args.image_size), num_classes=num_classes,
+        model = get_densenet(args.net_name, num_classes=num_classes,
                              data_parallel=args.dp, drop_rate=args.dr)
     else:
         raise NotImplementedError("model {} not implemented".format(args.net_name))
@@ -274,7 +274,7 @@ def train(train_dloader_l, train_dloader_u, model, criterion_l, criterion_u, opt
             # here label_u_approx is not with any grad
             with torch.no_grad():
                 if args.flag_reg:
-                    label_u_approx=model(image_u)
+                    label_u_approx = model(image_u)
                 else:
                     label_u_approx = torch.softmax(model(image_u), dim=1)
             cls_result_u, label_a_approx, label_b_approx, lam = model(image_u, mixup_alpha=args.mas,
