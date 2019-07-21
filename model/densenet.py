@@ -140,7 +140,7 @@ class DenseNet2d(nn.Module):
             else:
                 trans = nn.Sequential()
                 trans.add_module("norm", nn.BatchNorm2d(num_features))
-                trans.add_module("relu", nn.BatchNorm2d(num_features))
+                trans.add_module("relu", nn.ReLU(inplace=True))
                 if data_parallel:
                     trans = nn.DataParallel(trans)
                 self.encoder.add_module('transition%d' % (i + 1), trans)
