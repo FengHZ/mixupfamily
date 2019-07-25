@@ -112,7 +112,7 @@ class PreActResNet(nn.Module):
         # we may use norm and relu before the global avg. Standard implementation doesn't use
         self.global_avg.add_module("norm",
                                    nn.BatchNorm2d(int(num_init_features * (2 ** (len(block_config) - 1)) * expansion)))
-        self.global_avg.add_module('relu', nn.LeakyReLU())
+        self.global_avg.add_module('relu', nn.ReLU(inplace=True))
         self.global_avg.add_module('avg', global_avg)
         if data_parallel:
             self.global_avg = nn.DataParallel(self.global_avg)

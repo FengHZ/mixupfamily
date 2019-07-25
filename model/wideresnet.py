@@ -88,8 +88,8 @@ class WideResNet(nn.Module):
             self.encoder.add_module("wideblock%d" % (idx + 1), wide_block)
         global_avg = nn.AdaptiveAvgPool2d((1, 1))
         # we may use norm and relu before the global avg. Standard implementation doesn't use
-        self.global_avg.add_module("norm", nn.BatchNorm2d(nn.BatchNorm2d(widths[-1])))
-        self.global_avg.add_module('relu', nn.LeakyReLU())
+        self.global_avg.add_module("norm", nn.BatchNorm2d(widths[-1]))
+        self.global_avg.add_module('relu', nn.LeakyReLU(inplace=True))
         self.global_avg.add_module('avg', global_avg)
         if data_parallel:
             self.global_avg = nn.DataParallel(self.global_avg)
