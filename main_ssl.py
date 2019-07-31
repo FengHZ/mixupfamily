@@ -42,7 +42,7 @@ parser.add_argument('--epochs', default=600, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
-parser.add_argument('-am', "--alpha-max", default=10, type=float,
+parser.add_argument('-am', "--alpha-max", default=1, type=float,
                     help="the max weight(alpha) for the balance between supervised and unsupervised loss")
 parser.add_argument('-amf', '--alpha-modify-factor', default=0.4, type=float,
                     help="weight(alpha) will get alpha-max at amf * epochs")
@@ -252,9 +252,10 @@ def train(train_dloader_l, train_dloader_u, model, criterion_l, criterion_u, opt
             with torch.no_grad():
                 label_u_approx = torch.softmax(model(image_u), dim=1)
             mixed_image_u, label_a_approx, label_b_approx, lam = mixup_data(image_u, label_u_approx, args.mau)
-            cls_result_u = torch.softmax(model(mixed_image_u),dim=1)
+            cls_result_u = model(mixed_image_u)
+            cls_result_u = torch.log_softmax(cls_result_u, dim=1)
             label_u_approx_mixup = lam * label_a_approx + (1 - lam) * label_b_approx
-            loss_unsupervised = criterion_u(cls_result_u, label_u_approx_mixup)
+            loss_unsupervised = -1 * torch.mean(torch.sum(label_u_approx_mixup * cls_result_u, dim=1))
             loss = loss_supervised + alpha * loss_unsupervised
         elif args.manifold_mixup:
             cls_result_l, label_a, label_b, lam = model(image_l, mixup_alpha=args.mas, label=label_l,
@@ -271,7 +272,7 @@ def train(train_dloader_l, train_dloader_u, model, criterion_l, criterion_u, opt
             cls_result_u = torch.softmax(cls_result_u, dim=1)
             label_u_approx_mixup = lam * label_a_approx + (1 - lam) * label_b_approx
             loss_unsupervised = criterion_u(cls_result_u, label_u_approx_mixup)
-            loss = loss_supervised + alpha * loss_unsupervised
+            loss = loss_supervised + 10 * alpha * loss_unsupervised
         else:
             cls_result_l = model(image_l)
             loss = criterion_l(cls_result_l, label_l)

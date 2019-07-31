@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fd9f630d-ba32-447f-bb30-b3686e994999" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrainDetail.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/TrainDetail.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_ssl.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_ssl.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,7 +31,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/preactresnet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
+            <state relative-caret-position="3240">
               <caret line="112" column="39" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
@@ -42,11 +43,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main_ssl.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="260" column="47" lean-forward="true" selection-start-line="260" selection-start-column="47" selection-end-line="260" selection-end-column="47" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-2324">
+              <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -155,6 +153,7 @@
       <find>roc</find>
       <find>img_size</find>
       <find>args.image)s</find>
+      <find>args.flag</find>
     </findStrings>
     <replaceStrings>
       <replace>wideresnet</replace>
@@ -185,10 +184,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-14" />
-    <option name="y" value="-14" />
-    <option name="width" value="2586" />
+    <option name="width" value="2584" />
     <option name="height" value="1466" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -197,7 +195,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -219,6 +216,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -341,7 +339,8 @@
       <workItem from="1563526142107" duration="2514000" />
       <workItem from="1563618882220" duration="2104000" />
       <workItem from="1564044721439" duration="5610000" />
-      <workItem from="1564455609786" duration="608000" />
+      <workItem from="1564455609786" duration="6980000" />
+      <workItem from="1564540887443" duration="1407000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;move image size&quot;">
       <created>1563619576921</created>
@@ -375,13 +374,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="214102000" />
+    <option name="totallyTimeSpent" value="221881000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1293" height="733" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2077607" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21099435" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -395,7 +393,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.3294702" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3294702" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3294702" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="bottom" id="File Transfer" order="13" weight="0.8344371" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -474,7 +472,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/preactresnet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
+        <state relative-caret-position="3240">
           <caret line="112" column="39" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
@@ -538,11 +536,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main_ssl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="260" column="47" lean-forward="true" selection-start-line="260" selection-start-column="47" selection-end-line="260" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-2324">
+          <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
         </state>
       </provider>
     </entry>
