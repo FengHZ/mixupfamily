@@ -329,15 +329,15 @@ def test(valid_dloader, test_dloader, model, criterion, epoch, writer, num_class
     _, y_true = torch.topk(all_label, k=1, dim=1)
     _, y_pred = torch.topk(all_score, k=5, dim=1)
     # calculate accuracy by hand
-    losses = AverageMeter()
-    all_score = []
-    all_label = []
     top_1_accuracy = float(torch.sum(y_true == y_pred[:, :1]).item()) / y_true.size(0)
     top_5_accuracy = float(torch.sum(y_true == y_pred).item()) / y_true.size(0)
     writer.add_scalar(tag="Valid/top 1 accuracy", scalar_value=top_1_accuracy, global_step=epoch + 1)
     if args.dataset == "Cifar100":
         writer.add_scalar(tag="Valid/top 5 accuracy", scalar_value=top_5_accuracy, global_step=epoch + 1)
     # calculate result for test dataset
+    losses = AverageMeter()
+    all_score = []
+    all_label = []
     for i, (image, label) in enumerate(test_dloader):
         image = image.float().cuda()
         if args.zca:
