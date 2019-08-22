@@ -89,7 +89,7 @@ def main(args=args):
         train_dataset = cifar10_dataset(dataset_base_path)
         test_dataset = cifar10_dataset(dataset_base_path, train_flag=False)
         sampler_valid, sampler_train = get_sl_sampler(
-            torch.tensor(train_dataset.train_labels, dtype=torch.int32), 500, 10)
+            torch.tensor(train_dataset.targets, dtype=torch.int32), 500, 10)
         test_dloader = DataLoader(test_dataset, batch_size=args.batch_size, num_workers=args.workers, pin_memory=True)
         valid_dloader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=args.workers, pin_memory=True,
                                    sampler=sampler_valid)
@@ -102,7 +102,7 @@ def main(args=args):
         train_dataset = cifar100_dataset(dataset_base_path)
         test_dataset = cifar100_dataset(dataset_base_path, train_flag=False)
         sampler_valid, sampler_train = get_sl_sampler(
-            torch.tensor(train_dataset.train_labels, dtype=torch.int32), 50, 100)
+            torch.tensor(train_dataset.targets, dtype=torch.int32), 50, 100)
         test_dloader = DataLoader(test_dataset, batch_size=args.batch_size, num_workers=args.workers, pin_memory=True)
         valid_dloader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=args.workers, pin_memory=True,
                                    sampler=sampler_valid)
